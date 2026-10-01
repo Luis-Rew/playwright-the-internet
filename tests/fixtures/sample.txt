@@ -1,0 +1,1 @@
+Arquivo de exemplo usado pelo teste de upload.

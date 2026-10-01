@@ -1,0 +1,33 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  test:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout do código
+      uses: actions/checkout@v4
+    - name: Configurar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+        cache: npm
+    - name: Instalar dependências
+      run: npm ci
+    # Não rodamos "playwright install" aqui de propósito: o projeto está
+    # configurado para usar o Google Chrome do sistema (channel: 'chrome'),
+    # que já vem pré-instalado nos runners do GitHub Actions — isso evita um
+    # download extra do Chromium e uma fonte a menos de instabilidade.
+    - name: Rodar os testes
+      run: npx playwright test
+    - name: Publicar relatório do Playwright
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
