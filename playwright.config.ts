@@ -12,7 +12,9 @@ export default defineConfig({
     baseURL: 'https://the-internet.herokuapp.com',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    // Sem gravação de vídeo de propósito: ela depende do binário ffmpeg, que
+    // não vem junto com o Chrome do sistema (só com o Chromium baixado pelo
+    // Playwright). O screenshot de falha já é suficiente para diagnóstico.
   },
 
   projects: [
